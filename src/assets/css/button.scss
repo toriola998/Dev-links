@@ -1,0 +1,65 @@
+.purple-btn,
+button[type='submit'] {
+    @apply flex justify-center items-center rounded-lg bg-purple text-white font-semibold;
+    padding: 9px 27px;
+}
+
+.purple-btn {
+    transition: all .2s ease-in-out;
+    @apply hover:bg-purple-hover;
+}
+
+.outline-btn {
+    @apply flex justify-center items-center rounded-lg bg-white text-purple font-semibold w-full hover:bg-light-purple;
+    padding: 9px 27px;
+    border: 1px solid var(--purple);
+    transition: all .2s ease-in-out;
+}
+
+.save-btn{
+     @apply pt-6;
+     transition: all .2s ease-in-out;
+    
+    &::before {
+        content: '';
+        @apply right-0 left-0 absolute w-full h-[1px] block bg-grey;
+    }
+
+    button {
+        @apply hover:bg-purple-hover;
+    }
+}
+
+// NAVBAR LINKS
+.nav-bar {
+    a{
+        @apply px-[27px] py-[11px] flex text-grey font-semibold items-center;
+
+        &.active {
+            @apply bg-light-purple text-purple rounded-lg;
+
+            svg path {
+                fill: var(--purple);
+            } 
+            
+            span {
+                @apply text-purple;
+            }
+        }
+
+        &:hover {
+            svg path {
+                fill: var(--purple);
+            } 
+            
+            span {
+                @apply text-purple;
+            }
+        }
+    }
+
+    span {
+        @apply hidden md:block ml-2 text-grey-1;
+
+    }
+}
