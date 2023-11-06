@@ -40,7 +40,8 @@ function InputField({
                   className="w-full pl-12 py-3 pr-4"
                />
             </div>
-            <p className="text-red text-xs absolute -top-[18px] right-0 md:top-[unset] md:right-4">
+            {/* md:top-[unset] md:right-4 */}
+            <p className="text-red text-xs absolute -top-[18px] right-0">
                {errorMessage}
             </p>
          </div>

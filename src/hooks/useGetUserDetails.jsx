@@ -16,8 +16,9 @@ export function useUserData() {
             .getPublicUrl(fileName);
 
          if(data) {
-            console.log(data, 'get-public-url')
             return data;
+         }else if(error){
+            showErrorToast("Failed to get your profile photo!");
          }
       } catch (error) {
          console.log(error);

@@ -56,11 +56,11 @@ function SelectDropdown({
                         setDropdown(false);
                         setValue(`items[${index}].platform`, option);
                      }}
-                     className={
-                        watch(`items[${index}].platform`) === option.name
-                           ? "selected"
-                           : ""
-                     }
+                     // className={
+                     //    watch(`items[${index}].platform`) === option.name
+                     //       ? "selected"
+                     //       : ""
+                     // }
                   >
                      <span className="flex-item gap-x-[14px]">
                         <img
