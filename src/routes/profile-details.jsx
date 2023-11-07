@@ -15,14 +15,15 @@ import { saveProfile } from "../redux/linksSlice";
 import supabase from "../../config/supabaseClient";
 
 function ProfileDetails() {
-   const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schemas.profileDetailsSchema), });
+   const {
+      register,
+      handleSubmit,
+      formState: { errors },
+   } = useForm({ resolver: yupResolver(schemas.profileDetailsSchema) });
 
    const [selectedImage, setSelectedImage] = useState(null);
-   //const [base64Image, setBase64Image] = useState(null);
-   const [personPhoto, setPersonPhoto] = useState(null);
    const [loading, setLoading] = useState(false);
-   const [imageFile, setImageFile] = useState(null)
-   const [filePath, setFilePath] = useState(null)
+   const [imageFile, setImageFile] = useState(null);
 
    const { toast, showSuccessToast, showErrorToast, showToast } = useToast();
    const { checkAuthentication, userData } = useCheckAuthentication();
@@ -37,41 +38,14 @@ function ProfileDetails() {
       const file = e.target.files[0];
       if (file) {
          setSelectedImage(URL.createObjectURL(file));
-         setImageFile(file)
-         const reader = new FileReader();
-         reader.onload = () => {
-           return setPersonPhoto(reader?.result)
-         };
-         reader.readAsDataURL(file);
+         setImageFile(file);
       } else {
          setSelectedImage(null);
-         return null
+         return null;
       }
    };
 
-   async function saveImage() {
-      setLoading(true);
-      try {
-         const { data, error } = await supabase.storage
-            .from("images")
-            .upload("arik.png", imageFile, {
-               upsert: false,
-            });
-
-         if (data) {
-            console.log(data);
-            setFilePath('arik.png')
-            //return data;
-         } else if (error) {
-            console.error(error);
-         }
-      } catch (error) {
-         console.error(error);
-      }
-   }
-
    async function saveUserProfile(user) {
-      saveImage();
       setLoading(true);
       try {
          if (user) {
@@ -102,10 +76,29 @@ function ProfileDetails() {
       }
    }
 
-   function onSubmit(data) {
-      console.log(filePath)
-      dispatch(saveProfile({ ...data, photo: selectedImage }));
-      saveUserProfile({ ...data, photo: filePath });
+   async function onSubmit(data) {
+      const fileExtension = imageFile?.name.split(".").pop();
+      const userImageIdentifier = `${Date.now()}.${fileExtension}`;
+      console.log(userImageIdentifier);
+
+      setLoading(true);
+
+      try {
+         const { data: result, error } = await supabase.storage
+            .from("images")
+            .upload(userImageIdentifier, imageFile, {
+               upsert: false,
+            });
+
+         if (result) {
+            dispatch(saveProfile({ ...data, photo: selectedImage }));
+            saveUserProfile({ ...data, photo: result.path });
+         } else if (error) {
+            showErrorToast("Error saving user image/profile!");
+         }
+      } catch (error) {
+         showErrorToast("Something seems wrong, try again later!");
+      }
    }
 
    return (
