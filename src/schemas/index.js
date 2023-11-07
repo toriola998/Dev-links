@@ -15,8 +15,19 @@ const signupSchema = yup.object().shape({
     confirmPassword: yup.string().oneOf([yup.ref("password"), null], "Passwords must match").required("Can't be empty"),
 });
 
+// const linkSchema = yup.object().shape({
+//   link: yup.string().required("Ct be empty"),
+// });
+
 const linkSchema = yup.object().shape({
-  links: yup.array().of(yup.string().url("Invalid url").required("Can't be empty")),
+  items: yup.array().of(
+    yup.object().shape({
+      link: yup
+        .string()
+        .url('Invalid URL')
+        .required('Link is required'),
+    })
+  ),
 });
 
 const profileDetailsSchema = yup.object().shape({

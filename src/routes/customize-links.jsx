@@ -6,13 +6,12 @@ import SelectDropdown from "../components/input/SelectDropdown";
 import Toast from "../components/Toast";
 import { useToast } from "../hooks/useToast";
 import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
-import { useUserData } from "../hooks/useGetUserDetails";
 
 import { useState, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import schemas from "../schemas";
+import { yupResolver } from "@hookform/resolvers/yup";
+import schemas from "../schemas";
 
 import { useDispatch } from "react-redux";
 import { saveLinks } from "../redux/linksSlice";
@@ -23,17 +22,10 @@ function CustomizeLinks() {
 
    const { toast, showSuccessToast, showErrorToast, showToast } = useToast();
    const { checkAuthentication, userData } = useCheckAuthentication();
-   const { getUserData } = useUserData();
 
    useEffect(() => {
       checkAuthentication();
    }, []);
-
-   useEffect(() => {
-      //getUserData(userData?.session?.user?.email);
-   }, [userData])
-
-   // const linkList = useSelector((state) => state.counter.value)
 
    const {
       register,
@@ -43,7 +35,7 @@ function CustomizeLinks() {
       watch,
       setValue,
    } = useForm({
-      // resolver: yupResolver(schemas.linkSchema),
+      resolver: yupResolver(schemas.linkSchema),
       defaultValues: {
          items: [],
       },
@@ -166,7 +158,9 @@ function CustomizeLinks() {
                                  icon="/images/icons/links.svg"
                                  placeholder="https://www.github.com/benwright"
                                  fieldName={register(`items.${index}.link`)}
-                                 errorMessage={errors.items?.root?.message}
+                                 errorMessage={
+                                    errors?.items?.[index]?.link?.message
+                                 }
                               />
                            </section>
                         );
