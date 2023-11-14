@@ -35,7 +35,7 @@ function ProfileDetails() {
       },
    });
 
-   const [selectedImage, setSelectedImage] = useState(null);
+   const [selectedImage, setSelectedImage] = useState(formDataFromRedux.photo);
    const [loading, setLoading] = useState(false);
    const [imageFile, setImageFile] = useState(null);
 
