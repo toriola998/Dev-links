@@ -10,10 +10,10 @@ import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 import { useState, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import schemas from "../schemas";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import schemas from "../schemas";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveLinks } from "../redux/linksSlice";
 import supabase from "../../config/supabaseClient";
 
@@ -22,6 +22,9 @@ function CustomizeLinks() {
 
    const { toast, showSuccessToast, showErrorToast, showToast } = useToast();
    const { checkAuthentication, userData } = useCheckAuthentication();
+
+   // Get the form data from the Redux store
+   const formDataFromRedux = useSelector((state) => state.linksList.value);
 
    useEffect(() => {
       checkAuthentication();
@@ -35,10 +38,11 @@ function CustomizeLinks() {
       watch,
       setValue,
    } = useForm({
-      resolver: yupResolver(schemas.linkSchema),
-      defaultValues: {
-         items: [],
-      },
+      //resolver: yupResolver(schemas.linkSchema),
+      // defaultValues: {
+      //    items: [],
+      // },
+      defaultValues: formDataFromRedux || { items: [] }, // Use Redux store data or an empty array if no data is available
    });
 
    const { fields, append, remove } = useFieldArray({

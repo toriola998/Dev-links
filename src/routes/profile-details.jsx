@@ -10,16 +10,30 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import schemas from "../schemas";
 import { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveProfile } from "../redux/linksSlice";
 import supabase from "../../config/supabaseClient";
 
 function ProfileDetails() {
+   // Get the form data from the Redux store
+   const formDataFromRedux = useSelector(
+      (state) => state.linksList.profileDetails
+   );
+   console.log(formDataFromRedux)
+
    const {
       register,
       handleSubmit,
       formState: { errors },
-   } = useForm({ resolver: yupResolver(schemas.profileDetailsSchema) });
+   } = useForm({
+      resolver: yupResolver(schemas.profileDetailsSchema),
+      defaultValues: formDataFromRedux || {
+         firstName: "",
+         lastName: "",
+         email: "",
+         photo: ""
+      },
+   });
 
    const [selectedImage, setSelectedImage] = useState(null);
    const [loading, setLoading] = useState(false);
