@@ -117,7 +117,7 @@ function CustomizeLinks() {
             {fields.length === 0 && <EmptyLinksState />}
             <form onSubmit={handleSubmit(onSubmit)}>
                {fields.length >= 1 && (
-                  <div>
+                  <div className="links-wrapper">
                      {fields.map((field, index) => {
                         return (
                            <section

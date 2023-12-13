@@ -73,3 +73,24 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.links-wrapper {
+    @apply mt-5 overflow-y-scroll max-h-[500px] pr-3; 
+}
+
+.links-wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+
+.links-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.links-wrapper::-webkit-scrollbar-thumb {
+    @apply bg-purple;
+}
+
+.links-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #BEADFF;
+    cursor: pointer;
+}
