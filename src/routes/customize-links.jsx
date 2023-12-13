@@ -10,8 +10,8 @@ import { useCheckAuthentication } from "../hooks/useCheckAuthentication";
 import { useState, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import schemas from "../schemas";
+import { yupResolver } from "@hookform/resolvers/yup";
+import schemas from "../schemas";
 
 import { useDispatch, useSelector } from "react-redux";
 import { saveLinks } from "../redux/linksSlice";
@@ -25,7 +25,9 @@ function CustomizeLinks() {
 
    // Get the form data from the Redux store
    const formDataFromRedux = useSelector((state) => state.linksList.value);
-
+   // Initialize the form values with an empty array if data is not available
+   const initialValues = formDataFromRedux || { items: [] };
+   
    useEffect(() => {
       checkAuthentication();
    }, []);
@@ -38,11 +40,12 @@ function CustomizeLinks() {
       watch,
       setValue,
    } = useForm({
-      //resolver: yupResolver(schemas.linkSchema),
+      resolver: yupResolver(schemas.linkSchema),
+      defaultValues: initialValues,
       // defaultValues: {
       //    items: [],
       // },
-      defaultValues: formDataFromRedux || { items: [] }, // Use Redux store data or an empty array if no data is available
+      //defaultValues: formDataFromRedux || { items: [] }, // Use Redux store data or an empty array if no data is available
    });
 
    const { fields, append, remove } = useFieldArray({
@@ -85,7 +88,9 @@ function CustomizeLinks() {
 
    function onSubmit(data) {
       console.log(data);
-      dispatch(saveLinks(data));
+      //dispatch(saveLinks(data));
+      dispatch(saveLinks(data?.items));
+      console.log(data?.items)
       saveUserLinks(data);
    }
 

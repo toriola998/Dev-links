@@ -10,11 +10,14 @@ export const linksSlice = createSlice({
   initialState,
   reducers: {
     saveLinks: (state, action) => {
-      state.value = (action.payload);
+      let myArray = []
+      myArray.push(action.payload)
+      state.value = myArray[myArray?.length - 1]
+      //state.value.push(action.payload).length - 1;
+     // return state.value[state.value.length - 1];
     },
     saveProfile: (state, action) => {
       state.profileDetails = (action.payload);
-      console.log(state.profileDetails)
     },
   },
 })

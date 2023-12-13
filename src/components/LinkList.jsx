@@ -3,8 +3,8 @@ import platformColors from "../data/platform-colors";
 function LinkList({ linkList }) {
    return (
       <>
-         {linkList?.length !== 0 &&
-            linkList?.items.map((item, index) => (
+         {linkList && linkList.length !== 0 &&
+            linkList.map((item, index) => (
                <a
                   href={item.link}
                   target="_blank"
@@ -26,7 +26,7 @@ function LinkList({ linkList }) {
                         alt=""
                         style={{
                            filter:
-                              item.platform.name === "Frontend Mentor"
+                              item.name === "Frontend Mentor"
                                  ? ""
                                  : "brightness(500%)",
                         }}

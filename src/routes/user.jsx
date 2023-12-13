@@ -27,7 +27,7 @@ function UserPage() {
 
             <div className="flex-item justify-center py-[56px]">
                <div className="flex flex-col gap-y-5">
-                  <LinkList linkList={linkList} />
+                  <LinkList linkList={linkList?.items} />
                </div>
             </div>
          </main>
